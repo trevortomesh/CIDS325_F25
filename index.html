@@ -1,13 +1,71 @@
 <!DOCTYPE html>
-	<html>
-		<head>
-			<title>HTML Demo</title>
-    		<link rel="stylesheet" href="style.css">
-   
-		</head>
-		<body>
-			<h1>I'm a Barbie girl!</h1>
-			<h1>In a Barbie world!</h1>
-			<p>Life in plastic... it's fantastic!</p>
-		</body>
-	</html>
+<html lang = "en">
+
+<head>
+	<title>Selectors Demo</title>
+	<style>
+		/*Element selectors: low specificity, good for defaults*/
+		body{
+			font-family: Arial, Helvetica, sans-serif;
+			line-height: 1.5; 
+			margin: 0;
+		}
+		h1, h2, h3{
+			margin: 0;
+		}
+		p{margin: 0.5rem 0;}
+		
+		header {
+			background: #222;
+			color: #fff;
+			text-align: center;
+			padding: 1rem;
+		}
+		
+		main{
+			max-width: 720px;
+			margin: 1rem auto;
+			padding: 0 1rem;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>Selectors Demo</h1>
+		<p class = "tagline">Learning CSS.</p>
+	</header>
+	
+	<main>
+		<section id = "about">
+			<h2>About</h2>
+			<p>CSS styles HTML by matching selectors to elements and applying rules.</p>
+		</section>
+		<section id = "topics">
+			<h2>Topics</h2>
+				<ul class = "topics">
+					<li>Selectors</li>
+					<li>Styling basics</li>
+					<li>Alignment & Spacing </li>
+					<li>Lists</li>
+					<li>Specificity & cascade</li>
+				</ul>
+		</section>
+		
+		<section id = "example">
+			<h2>Example</h2>
+			<p class = "note">This paragraph uses a class for targeted styling.</p>
+			<p id="highlight">This paragraph uses an ID (stronger than class/element).</p>
+			
+			<div class = "card">
+			<h3>Card</h3>
+			<p>Descendant selectors can style elements *inside* this card only.</p>
+			<a href="#">A link</a>
+			</div>
+		</section>
+	</main>
+	<footer>
+		<p>(C) 2025 Dr. T Inc.</p>
+	</footer>
+</body>
+</html>
