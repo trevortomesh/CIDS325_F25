@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Simple Timer</title>
+		<style>
+			body{
+				font-family: sans-serif;
+				text-align: center;
+				margin-top: 50px;
+			}
+			
+			button{
+				font-size: 1.2em;
+				padding: 10px 20px;
+			}
+		</style>
+			
+	</head>
+	<body>
+		<h1>Countdown: <span id="time">5</span> seconds</h1>
+		<button id = "startBtn">Start</button>
+		<script>
+			let timeLeft = 5;
+			let timerId = null;
+			
+			const timeDisplay = document.getElementById("time");
+			const startBtn = document.getElementById("startBtn");	
+			
+			startBtn.addEventListener("click", function(){
+				
+				if(timerId !== null) return;
+				
+				timerId = setInterval(function(){
+					timeLeft = timeLeft - 1;
+					timeDisplay.textContent = timeLeft;
+					
+					if(timeLeft === 0){
+						clearInterval(timerId);
+						timerId = null;
+						alert("Times up!");
+						timeLeft = 5;
+					}
+				},1000);
+				
+			});
+				
+		</script>
+	</body>
+	</html>
