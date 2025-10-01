@@ -17,33 +17,55 @@
 			
 	</head>
 	<body>
-		<h1>Countdown: <span id="time">5</span> seconds</h1>
+		<h1>Custom Countdown Timer</h1>
+		
+		<label  for="secondsInput">Seconds:</label>
+		<input  id = "secondsInput" type="number" min="1" placeholder="10">
+		
+		<div id = "display">0</div>
+		
 		<button id = "startBtn">Start</button>
+		<button id = "stopBtn">Stop</button>
+		
 		<script>
-			let timeLeft = 5;
+			const secondsInput = document.getElementById("secondsInput");
+			const display = document.getElementById("display");
+			const startBtn = document.getElementById("startBtn");
+			const stopBtn = document.getElementById("stopBtn");
+			
+			let timeLeft = 0;
 			let timerId = null;
-			
-			const timeDisplay = document.getElementById("time");
-			const startBtn = document.getElementById("startBtn");	
-			
+				
 			startBtn.addEventListener("click", function(){
+				const seconds = Number(secondsInput.value);
+				if(isNaN(seconds) || seconds <= 0){
+					alert("Please enter a positive number!");
+					return;
+				};
 				
 				if(timerId !== null) return;
 				
+				timeLeft = seconds;
+				display.textContent = timeLeft;
+				
 				timerId = setInterval(function(){
 					timeLeft = timeLeft - 1;
-					timeDisplay.textContent = timeLeft;
+					display.textContent = timeLeft;
 					
-					if(timeLeft === 0){
+					if(timeLeft <= 0){
 						clearInterval(timerId);
 						timerId = null;
-						alert("Times up!");
-						timeLeft = 5;
+						alert("Time's Up!");
 					}
-				},1000);
+					
+				}, 1000);
+				});
 				
-			});
-				
+				stopBtn.addEventListener("click", function(){
+					clearInterval(timerId);
+					timerId = null;
+				});
+			
 		</script>
 	</body>
 	</html>
