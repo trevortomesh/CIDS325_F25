@@ -25,16 +25,23 @@
 		<div id = "display">0</div>
 		
 		<button id = "startBtn">Start</button>
+		<button id = "pauseBtn">Pause</button>
 		<button id = "stopBtn">Stop</button>
 		
 		<script>
 			const secondsInput = document.getElementById("secondsInput");
 			const display = document.getElementById("display");
 			const startBtn = document.getElementById("startBtn");
+			const pauseBtn = document.getElementById("pauseBtn");
 			const stopBtn = document.getElementById("stopBtn");
 			
 			let timeLeft = 0;
 			let timerId = null;
+			let isPaused = false;
+			
+			function updateDisplay(){
+				display.textContent = timeLeft;
+			}
 				
 			startBtn.addEventListener("click", function(){
 				const seconds = Number(secondsInput.value);
@@ -46,24 +53,54 @@
 				if(timerId !== null) return;
 				
 				timeLeft = seconds;
-				display.textContent = timeLeft;
+				updateDisplay();
+				secondsInput.value = "";
+				
+				startBtn.disabled = true;
+				pauseBtn.disabled = false;
+				stopBtn.disabled = false;
 				
 				timerId = setInterval(function(){
-					timeLeft = timeLeft - 1;
-					display.textContent = timeLeft;
+					if(!isPaused){
+						timeLeft--;
+						updateDisplay();
 					
 					if(timeLeft <= 0){
 						clearInterval(timerId);
 						timerId = null;
+						pauseBtn.disabled = true;
+						stopBtn.disabled = true;
+						startBtn.disabled = false;
 						alert("Time's Up!");
 					}
-					
+				  }
 				}, 1000);
+				});
+				
+				pauseBtn.addEventListener("click", function(){
+					if(timerId === null) return;
+					
+					if(isPaused){
+						//Resume
+						isPaused = false;
+						pauseBtn.textContent = "Pause";
+					}else{
+						//pause
+						isPaused = true;
+						pauseBtn.textContent = "Resume";
+					}
 				});
 				
 				stopBtn.addEventListener("click", function(){
 					clearInterval(timerId);
 					timerId = null;
+					isPaused = false;
+					pauseBtn.textContent = "Pause";
+					startBtn.disabled = false;
+					pauseBtn.disabled = true;
+					stopBtn.disabled = true;
+					timeLeft = 0;
+					updateDisplay();
 				});
 			
 		</script>
