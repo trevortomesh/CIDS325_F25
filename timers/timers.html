@@ -22,11 +22,19 @@
 		<label  for="secondsInput">Seconds:</label>
 		<input  id = "secondsInput" type="number" min="1" placeholder="10">
 		
-		<div id = "display">0</div>
+		<div id = "display">00:00</div>
 		
-		<button id = "startBtn">Start</button>
-		<button id = "pauseBtn">Pause</button>
-		<button id = "stopBtn">Stop</button>
+		<div id ="progressContainer" aria-label="time remaining">
+			<div id = "progressBar"></div>
+		</div>
+		
+		<div id="status"></div>
+		
+		<div>
+			<button id = "startBtn">Start</button>
+			<button id = "pauseBtn" disabled>Pause</button>
+			<button id = "stopBtn" disabled>Stop</button>
+		</div>
 		
 		<script>
 			const secondsInput = document.getElementById("secondsInput");
@@ -34,10 +42,22 @@
 			const startBtn = document.getElementById("startBtn");
 			const pauseBtn = document.getElementById("pauseBtn");
 			const stopBtn = document.getElementById("stopBtn");
+			const progressBar = document.getElementById("progressBar");
+			const statusEl = document.getElementById("status");
 			
-			let timeLeft = 0;
-			let timerId = null;
-			let isPaused = false;
+			let totalMs = 0;		// total countdown length (ms)
+			let remainingMs = 0; 	// how much time is left (ms)
+			let endTime = 0;		// timestamp when countdown should hit zero
+			let rafId = null; 		// requestAnimationFrame id
+			let running = false;	// currently counting down?
+			
+			function fmt(ms){
+				ms = Math.max(0, ms|0);
+				const sec = Math.ceil(ms/1000); 
+				const m = Math.floor(sec/60);
+				const s = sec % 60;
+      			return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;			
+      			}
 			
 			function updateDisplay(){
 				display.textContent = timeLeft;
