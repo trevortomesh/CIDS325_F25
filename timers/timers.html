@@ -58,6 +58,34 @@
 				const s = sec % 60;
       			return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;			
       			}
+      			
+      		function setUIState({started=false, paused=false, stopped=true}){
+      			startBtn.disabled = started && !paused;
+      			pauseBtn.disabled = !started;
+      			pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+      			stopBtn.disabled = !started;
+      		}
+			
+			
+			function update(now){
+				
+				remainingMs = Math.max(0, endTime-now);
+				display.textContent = fmt(remainingMs);
+				
+				const f = totalMs > 0 ? remainingMs / totalMs : 0;
+				progressBar.style.width = (f*100)+'%';
+				
+				if(remainingMs > 0 && running){
+					rafId = requestAnimationFrame(update);
+				}else if(remainingMs <= 0 && running){
+					running = false;
+					cancelAnimationFrame(rafId);
+					setUIState({started:false, paused:false, stopped:true});
+					alert("Time's up!");
+				}
+				}
+				
+			}
 			
 			function updateDisplay(){
 				display.textContent = timeLeft;
@@ -70,31 +98,23 @@
 					return;
 				};
 				
-				if(timerId !== null) return;
+				//initialize
+				totalMs = seconds * 1000;
+				remainingMs = totalMs;
+				endTime = performance.now() + remainingMs;
 				
-				timeLeft = seconds;
-				updateDisplay();
-				secondsInput.value = "";
+				//reset visuals
+				progressBar.style.width = '100%';
+				progressBar.style.background = 'limegreen';
+				display.textContent = fmt(remainingMs);
+				statusEl.textContent='';
+				secondsInput.value = '';
 				
-				startBtn.disabled = true;
-				pauseBtn.disabled = false;
-				stopBtn.disabled = false;
-				
-				timerId = setInterval(function(){
-					if(!isPaused){
-						timeLeft--;
-						updateDisplay();
-					
-					if(timeLeft <= 0){
-						clearInterval(timerId);
-						timerId = null;
-						pauseBtn.disabled = true;
-						stopBtn.disabled = true;
-						startBtn.disabled = false;
-						alert("Time's Up!");
-					}
-				  }
-				}, 1000);
+				//start loop
+				running = true;
+				cancelAnimationFrame(rafId);
+				setUIState({started:true, paused:false, stopped:false});
+				rafId = requestAnimationFrame(update);
 				});
 				
 				pauseBtn.addEventListener("click", function(){
