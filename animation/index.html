@@ -1,0 +1,49 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id = "box" style="
+            width:50px; height:50px;
+            background:royalblue; position:absolute; left:0; top:100px;">
+        </div>
+        <script>
+            // setInterval( () =>{
+            //     alert("test");
+            // }, 5000);
+
+            // function step(timestamp){
+            //     console.log("Frame time:", timestamp);
+            //     requestAnimationFrame(step);
+            // }
+
+            // requestAnimationFrame(step);
+
+            const box = document.getElementById("box");
+            const duration = 2000; // 2 seconds
+            const startX = 0;
+            const endX = 300;
+            let startTime = null;
+
+            function step(timestamp){
+                if(!startTime) startTime = timestamp; //first frame
+                const elapsed = timestamp - startTime;
+
+                const progress = Math.min(elapsed / duration, 1);
+
+                const x = startX + (endX - startX) * progress;
+                box.style.left = x + "px";
+                        
+
+                if(progress < 1){
+                    requestAnimationFrame(step);
+                }
+            }
+
+            requestAnimationFrame(step);
+
+        </script>
+
+
+    </body>
+</html>
