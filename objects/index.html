@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Javascript Objects</title>
+    </head>
+    <body>
+        <h1>Javascript Objects</h1>
+        <div id="output"></div>
+
+        <script>
+            // Create an object literal
+            const pokemon = {
+                species: "Pikachu",
+                nick: "Zappybutt",
+                type: "electric",
+                lvl: 75,
+                description: "It keeps its tail raised to monitor its surroundings. If you yank its tail, it will try to bite you.",
+                cry: function(){
+                    return `${this.nick} says PIKAPIKA!`;
+                }
+            
+            };
+
+            const outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = `
+            <p><strong>Pokemon Object:</strong>${pokemon.species}, ${pokemon.nick},${pokemon.type},${pokemon.lvl}</p>
+            <p><strong>Cry:</strong>${pokemon.cry()}</p>
+            `;
+
+            pokemon.trainer = "Ash";
+            pokemon.lvl = 100;
+            outputDiv.innerHTML += `<p>Updated Trainer: ${pokemon.trainer}, ${pokemon.lvl}</p>`;
+
+            outputDiv.innerHTML += "<p>All properties:</p><ul>";
+            for(const key in pokemon){
+                if(pokemon.hasOwnProperty(key)){
+                    outputDiv.innerHTML += `<li>${key}: ${pokemon[key]}</li>`;
+                }
+            }
+            outputDiv.innerHTML += "</ul>";
+
+
+        </script>
+    </body>
+</html>

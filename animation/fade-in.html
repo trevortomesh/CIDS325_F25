@@ -1,6 +1,8 @@
 <html>
     <head>
 
+    <link rel="stylesheet" href="style.css">
+
     </head>
     <body>
         <h1>Welcome!</h1>
@@ -10,8 +12,8 @@
         <nav id = "sideMenu" style="
             position: fixed;
             top: 0;
-            left: -200px;
-            width: 200px;
+            left: -100px;
+            width: 100px;
             height: 100%;
             background: #333;
             color: white;
@@ -24,7 +26,7 @@
         <p><a href="#">Contact</a></p>
     </nav>
 
-        <div id="message" style="
+        <!--div id="message" style="
         opacity: 0;
         transition: opacity 3.0s;
         margin-top: 20px;
@@ -35,20 +37,13 @@
         display: none;
         ">
         Thanks for visiting my website!
+    </div-->
+
+    <div id = "message" class="card is-hidden">
+        Thanks for visiting my website!
     </div>
 
-    <script>
-        const btn = document.getElementById("showBtn");
-        const msg = document.getElementById("message");
-
-        btn.addEventListener("click", () => {
-            msg.style.display="block";
-            //msg.style.opacity = "1";
-            requestAnimationFrame(() => {
-                msg.style.opacity = "1";
-            });
-        });
-    </script>
+    <script src = "script.js"></script>
 
     </body>
 </html>
