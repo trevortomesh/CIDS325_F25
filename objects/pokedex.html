@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>My Pokedex</title>
+        <style>
+
+        </style>
+    </head>
+
+    <body>
+        <h1>My Pokedex</h1>
+        <div id = "pokedex"></div>
+        <script>
+
+            function Pokemon(name, type, abilities, stats){
+                this.name = name;
+                this.type = type;
+                this.abilities = abilities;
+                this.stats = stats;
+            }
+
+            const pikachu = new Pokemon(
+                "Pikachu",
+                ["Electric"],
+                ["Static", "Lightning Rod"],
+                {hp: 35, attack: 55, defense: 40, speed: 90}
+            );
+
+            const bulbasaur = new Pokemon(
+                "Bulbasaur",
+                ["Grass", "Poison"],
+                ["Overgrowth", "Chlorophyll"],
+                {hp: 45, attack: 52, defense: 49, speed: 45}
+            );
+
+            const charmander = new Pokemon(
+                "Charmander",
+                ["Fire"],
+                ["Blaze", "Solar Power"],
+                {hp: 39, attack: 52, defense: 43, speed: 65}
+            );
+
+            const pokedex = [pikachu, bulbasaur, charmander];
+
+            function displayPokedex(pokemonList){
+                const container = document.getElementById("pokedex");
+                container.innerHTML = "";
+
+                pokemonList.forEach(pokemon => {
+                    const types = pokemon.type.join(",");
+                    const abilities = pokemon.abilities.join(",");
+                    const stats = `HP: ${pokemon.stats.hp}, Attack: ${pokemon.stats.attack}, Defense: ${pokemon.stats.defense}, Speed: ${pokemon.stats.speed}`;
+
+                    container.innerHTML += `
+                    <div class="pokemon">
+                        <h2>${pokemon.name}</h2>
+                        <p><strong>Type:</strong> ${types}</p>
+                        <p><strong>Abilities:</strong>${abilities}</p>
+                        <p><strong>Stats:</strong>${stats}</p>
+                    </div>
+                    `;
+
+                });
+            }
+
+            displayPokedex(pokedex);
+
+
+
+
+
+
+
+        </script>
+    </body>
+</html>
