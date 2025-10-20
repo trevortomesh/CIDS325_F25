@@ -1,0 +1,49 @@
+<html>
+    <head>
+
+    <link rel="stylesheet" href="style.css">
+
+    </head>
+    <body>
+        <h1>Welcome!</h1>
+        <button id = "showBtn">Show Message!</button>
+        <button id = "toggleMenu">Menu</button>
+
+        <nav id = "sideMenu" style="
+            position: fixed;
+            top: 0;
+            left: -100px;
+            width: 100px;
+            height: 100%;
+            background: #333;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        ">
+        <h2>Menu</h2>
+        <p><a href="#">Home</a></p>
+        <p><a href="#">About</a></p>
+        <p><a href="#">Contact</a></p>
+    </nav>
+
+        <!--div id="message" style="
+        opacity: 0;
+        transition: opacity 3.0s;
+        margin-top: 20px;
+        background: lightyellow;
+        border: 1px solid gold;
+        padding: 15px;
+        width: 250px;
+        display: none;
+        ">
+        Thanks for visiting my website!
+    </div-->
+
+    <div id = "message" class="card is-hidden">
+        Thanks for visiting my website!
+    </div>
+
+    <script src = "script.js"></script>
+
+    </body>
+</html>

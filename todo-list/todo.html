@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Simple Todo </title>
+</head>
+<body>
+	<h1>Todo List</h1>
+	
+	<input id="taskInput" type="text" placeholder="New Task">
+	<button id="addBtn">Add</button>
+	
+	<ul id="taskList"></ul>
+	
+	<script>
+		const input = document.getElementById("taskInput");
+		const addBtn = document.getElementById("addBtn");
+		const list = document.getElementById("taskList");
+		
+		addBtn.addEventListener("click", () => {
+			const text = input.value.trim();
+			if(text === "") return;
+			
+			const li = document.createElement("li");
+			li.textContent = text;
+			
+			li.addEventListener("click", () => {
+				list.removeChild(li);
+			});
+
+			
+			list.appendChild(li);
+			input.value = "";
+
+			
+		});
+	</script>
+	</body>
+	</html>

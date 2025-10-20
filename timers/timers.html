@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Simple Timer</title>
+		<style>
+			body{
+				font-family: sans-serif;
+				text-align: center;
+				margin-top: 50px;
+			}
+			
+			button{
+				font-size: 1.2em;
+				padding: 10px 20px;
+			}
+			#progressContainer{
+				width: 360px; height:26px; margin: 16px auto 6px;
+				border: 2px solid #222; background: #f3f3f3; border-radius: 6px; overflow: hidden;
+			}
+			
+			#progressBar{
+				width: 100%; height: 100%;
+				background: limegreen;
+				transform-origin: left center;
+			}
+			#status { font-size: 0.9rem; color: #666; height: 1.2rem;}
+		</style>
+			
+	</head>
+	<body>
+		<h1>Custom Countdown Timer</h1>
+		
+		<label  for="secondsInput">Seconds:</label>
+		<input  id = "secondsInput" type="number" min="1" placeholder="10">
+		
+		<div id = "display">00:00</div>
+		
+		<div id ="progressContainer" aria-label="time remaining">
+			<div id = "progressBar"></div>
+		</div>
+		
+		<div id="status"></div>
+		
+		<div>
+			<button id = "startBtn">Start</button>
+			<button id = "pauseBtn" disabled>Pause</button>
+			<button id = "stopBtn" disabled>Stop</button>
+		</div>
+		
+		<script>
+			const secondsInput = document.getElementById("secondsInput");
+			const display = document.getElementById("display");
+			const startBtn = document.getElementById("startBtn");
+			const pauseBtn = document.getElementById("pauseBtn");
+			const stopBtn = document.getElementById("stopBtn");
+			const progressBar = document.getElementById("progressBar");
+			const statusEl = document.getElementById("status");
+			
+			let totalMs = 0;		// total countdown length (ms)
+			let remainingMs = 0; 	// how much time is left (ms)
+			let endTime = 0;		// timestamp when countdown should hit zero
+			let rafId = null; 		// requestAnimationFrame id
+			let running = false;	// currently counting down?
+			
+			function fmt(ms){
+				ms = Math.max(0, ms|0);
+				const sec = Math.ceil(ms/1000); 
+				const m = Math.floor(sec/60);
+				const s = sec % 60;
+      			return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;			
+      			}
+      			
+      		function setUIState({started=false, paused=false, stopped=true}){
+      			startBtn.disabled = started && !paused;
+      			pauseBtn.disabled = !started;
+      			pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+      			stopBtn.disabled = !started;
+      		}
+			
+			
+			function update(now){
+				
+				remainingMs = Math.max(0, endTime-now);
+				display.textContent = fmt(remainingMs);
+				
+				const f = totalMs > 0 ? remainingMs / totalMs : 0;
+				progressBar.style.width = (f*100)+'%';
+				
+				if(remainingMs <= 3000 && remainingMs > 0){
+					progressBar.style.background = 'tomato';
+					statusEl.textContent = 'Finishing soon...';
+				}else{
+					progressBar.style.background = 'limegreen';
+					statusEl.textContent = '';
+				}
+				
+				if(remainingMs > 0 && running){
+					rafId = requestAnimationFrame(update);
+				}else if(remainingMs <= 0 && running){
+					running = false;
+					cancelAnimationFrame(rafId);
+					setUIState({started:false, paused:false, stopped:true});
+					alert("Time's up!");
+				}
+				}
+				
+			
+				
+			startBtn.addEventListener("click", function(){
+				const seconds = Number(secondsInput.value);
+				if(isNaN(seconds) || seconds <= 0){
+					alert("Please enter a positive number!");
+					return;
+				};
+				
+				//initialize
+				totalMs = seconds * 1000;
+				remainingMs = totalMs;
+				endTime = performance.now() + remainingMs;
+				
+				//reset visuals
+				progressBar.style.width = '100%';
+				progressBar.style.background = 'limegreen';
+				display.textContent = fmt(remainingMs);
+				statusEl.textContent='';
+				secondsInput.value = '';
+				
+				//start loop
+				running = true;
+				cancelAnimationFrame(rafId);
+				setUIState({started:true, paused:false, stopped:false});
+				rafId = requestAnimationFrame(update);
+				});
+				
+				pauseBtn.addEventListener("click", () => {
+					if(!running && remainingMs > 0 && pauseBtn.textContent === 'Resume'){
+						//resume
+						endTime = performance.now() + remainingMs;
+						running = true;
+						setUIState({started:true, paused:false, stopped:false});
+						rafId = requestAnimationFrame(update);
+					}else if(running){
+						running = false;
+						cancelAnimationFrame(rafId);
+						setUIState({started:true, paused:true, stopped:false});
+					}
+				});
+				
+				stopBtn.addEventListener("click", () => {
+					running = false;
+					cancelAnimationFrame(rafId);
+					remainingMs = 0;
+					display.textContent = fmt(0);
+					progressBar.style.width = '100%';
+					progressBar.background = 'limegreen';
+					statusEl.textContent = '';
+					setUIState({started:false, paused:false, stopped:true});
+				});
+				
+				setUIState({started:false, paused:false, stopped:true});
+			
+		</script>
+	</body>
+	</html>

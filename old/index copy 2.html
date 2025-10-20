@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Functions Example</title>
+</head>
+<body>
+	<h1> Functions Demo </h1>
+	<p id="demo"></p>
+	<button onclick="changeColor()">Click Me</button>
+	<button id="myButton">Click Me!!</button>
+	<button id="button2">Click me more!</button>
+	<p id="mouseOver">Mouse Over Me!</p>
+	<script>
+		// this is where I will write my javascript!
+		const mover = document.getElementById("mouseOver");
+		const button = document.getElementById("myButton");
+		const button2 = document.getElementById("button2");
+		
+		mover.addEventListener("mouseover", function(event){
+			console.log("You moused-over", event.target);
+			mover.style.color = "#00FF00" 
+		});
+		
+		mover.removeEventListener("mouseover", function(event){
+			console.log("Event Listener Removed!");
+		});
+		
+		button2.addEventListener("click", function(event){
+			console.log("Button clicked on:", event.target);
+		})
+		
+		function showMessage(){
+			document.getElementById("demo").innerText = "You clicked the button!";
+		}
+		
+		button.addEventListener("click", showMessage);
+		
+		function changeColor(){
+			document.body.style.backgroundColor = "lightblue";
+		}
+		
+		function greet(name){
+			console.log(`Hello, ${name}!`);
+			return "Hello, " + name + "!";
+		}
+		
+			let message = greet("Spiderman");
+			document.getElementById("demo").innerText = message;
+	</script>
+</body>
+</html>
