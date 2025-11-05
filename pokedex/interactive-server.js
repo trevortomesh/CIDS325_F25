@@ -6,6 +6,8 @@ const server = http.createServer((req, res) => {
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.query;
 
+    console.log(req);
+
     res.writeHead(200, {'Content-type':'application/json'});
     res.end(JSON.stringify({
        pathname,
