@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simple Employee Management System (SEMS)</title>
+   
+    <style>
+        body{font-family: Arial, sans-serif; margin: 20px;}
+        input, button {margin: 5px 0; padding: 5px}
+        ul{padding-left:0}
+        li{list-style-type: none; padding: 4px 0}
+    </style>
+    </head>
+    <body>
+        <h1>Employees</h1>
+
+        <ul id="employeeList"></ul>
+
+        <h2>Add Employee</h2>
+        <form id="addEmployeeForm">
+            <input type="text" id="firstName" placeholder="First Name" required/>
+            <input type="text" id="lastName" placeholder="Last Name" required/>
+            <button type="submit">Add</button>
+        </form>
+    
+    <script>
+        const apiBase = 'http://localhost:3000';
+
+        const employeeList = document.getElementById('employeeList');
+        const addEmployeeForm = document.getElementById('addEmployeeForm');
+        const firstNameInput = document.getElementById('firstName');
+        const lastNameInput = document.getElementById('lastName');
+
+        async function loadEmployees(){
+            const res = await fetch(apiBase+'/employees');
+            if(!res.ok){
+                alert('Failed to fetch employees');
+                return;
+            }
+            const employees = await res.json();
+            employeeList.innerHTML = '';
+            employees.forEach(e =>{
+                const li = document.createElement('li');
+                li.textContent = `${e.id}: ${e.firstName} ${e.lastName} `;
+                const delBtn = document.createElement('button');
+                delBtn.textContent = 'Delete';
+                delBtn.style.marginLeft = '10px';
+                delBtn.onclick = () => deleteEmployee(e.id);
+                li.appendChild(delBtn);
+                employeeList.appendChild(li);
+            });
+
+        }
+
+        loadEmployees();
+    </script>
+    
+    
+    
+    </body>
+</html>
