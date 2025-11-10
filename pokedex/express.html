@@ -31,6 +31,7 @@
         const lastNameInput = document.getElementById('lastName');
 
         async function loadEmployees(){
+            try{
             const res = await fetch(apiBase+'/employees');
             if(!res.ok){
                 alert('Failed to fetch employees');
@@ -49,7 +50,64 @@
                 employeeList.appendChild(li);
             });
 
+
+        } catch(error){
+            alert('Failed to load employees: ' + error.message);
         }
+    }
+
+    //Handle form submission to add new employee
+    addEmployeeForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const newEmployee = {
+            firstName: firstNameInput.value.trim(),
+            lastName: lastNameInput.value.trim()
+        };
+
+        if(!newEmployee.firstName || !newEmployee.lastName){
+            alert('Please enter both first and last name.');
+            return;
+        }
+        try{
+            const res = await fetch(apiBase + '/employees',{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newEmployee)
+            });
+            if(!res.ok){
+                const errMsg = await res.text();
+                throw new Error(errMsg);
+            }
+            firstNameInput.value = '';
+            lastNameInput.value = '';
+            await loadEmployees();
+
+        }catch(error){
+            alert('Failed to add employee: ' + error.message);
+        }
+
+    };
+
+    // delete employees by ID
+    async function deleteEmployee(id){
+        if(!confirm('Delete employee #' + id + '?'))return;
+        try{
+            const res = await fetch(apiBase + '/employees/' + id, {
+                method: 'DELETE'
+            });
+            if(res.status === 204){
+                await loadEmployees();
+            }else{
+                throw new Error('Delete failed');
+            }
+            }catch(error){
+                alert(error.message);
+            }
+        }
+    
+
 
         loadEmployees();
     </script>
