@@ -68,6 +68,7 @@
             alert('Please enter both first and last name.');
             return;
         }
+        
         try{
             const res = await fetch(apiBase + '/employees',{
                 method: 'POST',

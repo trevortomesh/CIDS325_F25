@@ -4,7 +4,7 @@ const cors = require('cors');
 
 app.use(cors());
 app.use(express.json()); // Parse JSON body
-const PORT = 3000;
+const PORT = 8080;
 
 let employees = [
     {id: 1, firstName: 'Jane', lastName: 'Doe'},
@@ -46,3 +46,4 @@ app.delete('/employees/:id', (req,res) => {
 app.listen(PORT, ()=>{
     console.log(`Server running at http://localhost:${PORT}`);
 });
+
