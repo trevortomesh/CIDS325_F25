@@ -1,15 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 const PORT = 3000;
-const DATA_FILE = path.join(__dirname,'./pokedex.json');
+const DATA_FILE = path.join(__dirname, "./pokedex.json");
 //const DEFAULT_PORT = 3000;
 // const PORT = (() => {
 //     const envPort = process.env.PORT;
@@ -22,35 +22,37 @@ const DATA_FILE = path.join(__dirname,'./pokedex.json');
 // Function to safely load JSON data
 function loadPokemonData() {
   try {
-    const data = fs.readFileSync(DATA_FILE, 'utf8');
+    const data = fs.readFileSync(DATA_FILE, "utf8");
     return JSON.parse(data);
   } catch (err) {
-    console.error('Error loading JSON:', err.message);
+    console.error("Error loading JSON:", err.message);
     return []; // Return empty array if file not found or invalid
   }
 }
 
 // GET all Pokémon
-app.get('/pokemon', (req, res) => {
+app.get("/pokemon", (req, res) => {
   const pokemon = loadPokemonData();
   res.json(pokemon);
 });
 
 // GET Pokémon by name
-app.get('/pokemon/:name', (req, res) => {
+app.get("/pokemon/:name", (req, res) => {
   const pokemon = loadPokemonData();
-  const found = pokemon.find(p => p.name.toLowerCase() === req.params.name.toLowerCase());
-  if (!found) return res.status(404).send('Pokémon not found.');
+  const found = pokemon.find(
+    (p) => p.name.toLowerCase() === req.params.name.toLowerCase(),
+  );
+  if (!found) return res.status(404).send("Pokémon not found.");
   res.json(found);
 });
 
 // POST new Pokémon
-app.post('/pokemon', (req, res) => {
+app.post("/pokemon", (req, res) => {
   const pokemon = loadPokemonData();
   const newPokemon = req.body;
 
   if (!newPokemon.name || !newPokemon.type) {
-    return res.status(400).send('Invalid Pokémon data.');
+    return res.status(400).send("Invalid Pokémon data.");
   }
 
   pokemon.push(newPokemon);
@@ -59,8 +61,8 @@ app.post('/pokemon', (req, res) => {
 });
 
 // Default route
-app.get('/', (req, res) => {
-  res.send('Pokémon API running. Visit /pokemon to see data.');
+app.get("/", (req, res) => {
+  res.send("Pokémon API running. Visit /pokemon to see data.");
 });
 
 // Start server
