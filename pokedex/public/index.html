@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
         <title>Pokedex</title>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
         <h1>Select a Pokemon</h1>
@@ -13,7 +13,96 @@
         </select>
         <!--Container for Pokemon Info-->
         <div id="pokemonDisplay"></div>
+
+        <h2>Add a New Pokemon</h2>
+        <form id="addPokemonForm">
+            <div class="field">
+                <label for="name">Name</label>
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="E.g., Eevee"
+                    required
+                />
+            </div>
+
+            <div class="field">
+                <label for="type">Type(s)</label>
+                <input
+                    id="type"
+                    name="type"
+                    type="text"
+                    placeholder="Comma-separated, e.g. Normal or Grass, Poison"
+                    required
+                />
+            </div>
+
+            <div class="field">
+                <label for="abilities">Abilities</label>
+                <input
+                    id="abilities"
+                    name="abilities"
+                    type="text"
+                    placeholder="Comma-separated, e.g. Run Away, Adaptability"
+                    required
+                />
+            </div>
+
+            <fieldset class="status">
+                <legend>Stats</legend>
+                <div class="field inline">
+                    <label for="hp">HP</label>
+                    <input
+                        id="hp"
+                        name="hp"
+                        type="number"
+                        placeholder="50"
+                        min="1"
+                        step="1"
+                        required
+                    />
+                </div>
+                <div class="field inline">
+                    <label for="attack">Attack</label>
+                    <input
+                        id="attack"
+                        name="attack"
+                        type="number"
+                        placeholder="10"
+                        min="1"
+                        step="1"
+                        required
+                    />
+                </div>
+                <div class="field inline">
+                    <label for="defense">Defense</label>
+                    <input
+                        id="defense"
+                        name="defense"
+                        type="number"
+                        placeholder="10"
+                        min="1"
+                        step="1"
+                        required
+                    />
+                </div>
+                <div class="field inline">
+                    <label for="speed">Speed</label>
+                    <input
+                        id="speed"
+                        name="speed"
+                        type="number"
+                        placeholder="10"
+                        min="1"
+                        step="1"
+                        required
+                    />
+                </div>
+            </fieldset>
+
+            <button type="submit">Add Pokemon</button>
+        </form>
         <script src="script.js"></script>
     </body>
-
 </html>
