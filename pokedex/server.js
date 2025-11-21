@@ -8,18 +8,18 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-const PORT = 3000;
+//const PORT = 3000;
 const DATA_FILE = path.join(__dirname, "./pokedex.json");
-//const DEFAULT_PORT = 3000;
-// const PORT = (() => {
-//     const envPort = process.env.PORT;
-//     if (!envPort) return DEFAULT_PORT;
-//     const n = Number(envPort);
-//     if (Number.isFinite(n) && n > 0) return n;
-//     console.warn(`Invalid PORT "${envPort}". Falling back to ${DEFAULT_PORT}.`);
-//     return DEFAULT_PORT;
-// })();
-// Function to safely load JSON data
+const DEFAULT_PORT = 3000;
+const PORT = (() => {
+  const envPort = process.env.PORT;
+  if (!envPort) return DEFAULT_PORT;
+  const n = Number(envPort);
+  if (Number.isFinite(n) && n > 0) return n;
+  console.warn(`Invalid PORT "${envPort}". Falling back to ${DEFAULT_PORT}.`);
+  return DEFAULT_PORT;
+})();
+//Function to safely load JSON data
 function loadPokemonData() {
   try {
     const data = fs.readFileSync(DATA_FILE, "utf8");
@@ -69,22 +69,25 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
-// function startWithFallback(startPort, attempts = 10) {
-//     const port = startPort;
-//     console.log(`Starting server on port ${port}...`);
-//     const server = app.listen(port, () => {
-//         console.log(`Server running on http://localhost:${port}`);
-//     });
+function startWithFallback(startPort, attempts = 10) {
+  const port = startPort;
+  console.log(`Starting server on port ${port}...`);
+  const server = app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
 
-//     server.on('error', (err) => {
-//         if (err && err.code === 'EADDRINUSE' && attempts > 0) {
-//             const nextPort = port + 1;
-//             console.warn(`Port ${port} in use. Retrying on ${nextPort}...`);
-//             setTimeout(() => startWithFallback(nextPort, attempts - 1), 150);
-//         } else {
-//             console.error('Failed to start server:', err && err.message ? err.message : err);
-//         }
-//     });
-// }
+  server.on("error", (err) => {
+    if (err && err.code === "EADDRINUSE" && attempts > 0) {
+      const nextPort = port + 1;
+      console.warn(`Port ${port} in use. Retrying on ${nextPort}...`);
+      setTimeout(() => startWithFallback(nextPort, attempts - 1), 150);
+    } else {
+      console.error(
+        "Failed to start server:",
+        err && err.message ? err.message : err,
+      );
+    }
+  });
+}
 
-// startWithFallback(PORT);
+startWithFallback(PORT);
