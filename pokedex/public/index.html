@@ -1,108 +1,123 @@
 <!doctype html>
+<!--
+  Pokedex — minimal frontend
+  - A dropdown to select a Pokémon and show details
+  - A form to add a new Pokémon
+  - The details view includes a Release button (wired in script.js)
+-->
 <html>
-    <head>
-        <title>Pokedex</title>
-        <link rel="stylesheet" href="styles.css" />
-    </head>
-    <body>
-        <h1>Select a Pokemon</h1>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pokedex</title>
+    <!-- Project stylesheet: see styles.css for theme tokens and layout rules -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Select a Pokemon</h1>
 
-        <!---Dropdown Menu-->
-        <select id="pokemonSelect">
-            <option value="">-- Choose a Pokemon --</option>
-        </select>
-        <!--Container for Pokemon Info-->
-        <div id="pokemonDisplay"></div>
+    <!-- Main selector for existing Pokémon -->
+    <select id="pokemonSelect" aria-label="Select a Pokemon">
+      <option value="">-- Choose a Pokemon --</option>
+    </select>
 
-        <h2>Add a New Pokemon</h2>
-        <form id="addPokemonForm">
-            <div class="field">
-                <label for="name">Name</label>
-                <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="E.g., Eevee"
-                    required
-                />
-            </div>
+    <!-- Details for the selected Pokémon (populated by script.js) -->
+    <div id="pokemonDisplay"></div>
 
-            <div class="field">
-                <label for="type">Type(s)</label>
-                <input
-                    id="type"
-                    name="type"
-                    type="text"
-                    placeholder="Comma-separated, e.g. Normal or Grass, Poison"
-                    required
-                />
-            </div>
+    <h2>Add a New Pokemon</h2>
+    <!-- Add form: simple inputs; JS builds the payload and POSTs to /pokemon -->
+    <form id="addPokemonForm">
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="E.g., Eevee"
+          required
+        />
+      </div>
 
-            <div class="field">
-                <label for="abilities">Abilities</label>
-                <input
-                    id="abilities"
-                    name="abilities"
-                    type="text"
-                    placeholder="Comma-separated, e.g. Run Away, Adaptability"
-                    required
-                />
-            </div>
+      <div class="field">
+        <label for="type">Type(s)</label>
+        <input
+          id="type"
+          name="type"
+          type="text"
+          placeholder="Comma-separated, e.g. Normal or Grass, Poison"
+          required
+        />
+      </div>
 
-            <fieldset class="status">
-                <legend>Stats</legend>
-                <div class="field inline">
-                    <label for="hp">HP</label>
-                    <input
-                        id="hp"
-                        name="hp"
-                        type="number"
-                        placeholder="50"
-                        min="1"
-                        step="1"
-                        required
-                    />
-                </div>
-                <div class="field inline">
-                    <label for="attack">Attack</label>
-                    <input
-                        id="attack"
-                        name="attack"
-                        type="number"
-                        placeholder="10"
-                        min="1"
-                        step="1"
-                        required
-                    />
-                </div>
-                <div class="field inline">
-                    <label for="defense">Defense</label>
-                    <input
-                        id="defense"
-                        name="defense"
-                        type="number"
-                        placeholder="10"
-                        min="1"
-                        step="1"
-                        required
-                    />
-                </div>
-                <div class="field inline">
-                    <label for="speed">Speed</label>
-                    <input
-                        id="speed"
-                        name="speed"
-                        type="number"
-                        placeholder="10"
-                        min="1"
-                        step="1"
-                        required
-                    />
-                </div>
-            </fieldset>
+      <div class="field">
+        <label for="abilities">Abilities</label>
+        <input
+          id="abilities"
+          name="abilities"
+          type="text"
+          placeholder="Comma-separated, e.g. Run Away, Adaptability"
+          required
+        />
+      </div>
 
-            <button type="submit">Add Pokemon</button>
-        </form>
-        <script src="script.js"></script>
-    </body>
-</html>
+      <fieldset class="status">
+        <legend>Stats</legend>
+        <div class="field inline">
+          <label for="hp">HP</label>
+          <input
+            id="hp"
+            name="hp"
+            type="number"
+            placeholder="50"
+            min="1"
+            step="1"
+            required
+          />
+        </div>
+        <div class="field inline">
+          <label for="attack">Attack</label>
+          <input
+            id="attack"
+            name="attack"
+            type="number"
+            placeholder="10"
+            min="1"
+            step="1"
+            required
+          />
+        </div>
+        <div class="field inline">
+          <label for="defense">Defense</label>
+          <input
+            id="defense"
+            name="defense"
+            type="number"
+            placeholder="10"
+            min="1"
+            step="1"
+            required
+          />
+        </div>
+        <div class="field inline">
+          <label for="speed">Speed</label>
+          <input
+            id="speed"
+            name="speed"
+            type="number"
+            placeholder="10"
+            min="1"
+            step="1"
+            required
+          />
+        </div>
+      </fieldset>
+
+      <button type="submit">Add Pokemon</button>
+    </form>
+    <!-- Area for success/error messages written by script.js -->
+    <div id="message" role="status" aria-live="polite"></div>
+    
+    <!-- App script: fetches Pokémon, binds form, and handles release -->
+    <script src="script.js"></script>
+  </body>
+  </html>

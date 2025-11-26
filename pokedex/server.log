@@ -1,3 +1,7 @@
-Starting server on port 3000...
-Server running on http://localhost:3000
-Failed to start server: listen EPERM: operation not permitted 0.0.0.0:3000
+
+> pokedex@1.0.0 start:auto
+> HOST=127.0.0.1 PORT=0 node server.js
+
+Invalid PORT "0". Falling back to 3000.
+Starting server on 127.0.0.1:3000 ...
+Server running on http://127.0.0.1:3000

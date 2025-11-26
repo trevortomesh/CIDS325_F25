@@ -4,7 +4,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:auto": "HOST=127.0.0.1 PORT=0 node server.js"
   },
   "keywords": [],
   "author": "",

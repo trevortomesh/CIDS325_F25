@@ -1,0 +1,57 @@
+Notes from Nov 26th 2025
+------------------------
+
+Handling routes:
+in express:
+app.get('/hello', (req, res) => res.send('Hello;));
+
+next.js
+//pages/about.js
+export default function About(){
+    return <h1>About Page</h1>;
+}
+
+Components: 
+EJS
+<h1>Hello <%= name %></h1>
+
+React
+function Greeting({name}){
+    return <h1>Hello {name}</h1>
+}
+
+-------------------------
+Front-End (React)
+Components, routing UI
+-------------------------
+          |
+          | HTTP
+-------------------------
+Back-End API Server
+Express / Django / Rails
+-------------------------
+          |
+          | Queries
+-------------------------          
+Database Layer
+Postgres / Mongo / SQL
+-------------------------
+
+
+Model - View - Controller
+
+         VS
+
+Model - Component - Controller
+
+
+React Example:
+
+function Counter(){
+    const[count, setCount] = useState(0);
+    return(
+        <button onClick = { () => setCount(count +1)}>
+            Count: {count}
+        </button>
+    );
+}
