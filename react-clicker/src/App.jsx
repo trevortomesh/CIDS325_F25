@@ -1,22 +1,49 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 //var initialValue = 0;
 
 function App() {
   
   return(
   <div style ={{ textAlign: "center" }}>
-   <Counter />  
+    <Form />
   </div>
   )
 }
 
 
+function Form(){
+  const inputRef = useRef();
+  return(
+    <div>
+      <input ref={inputRef} />
+      <button onClick={() => inputRef.current.focus()}>
+        Focus the input!
+      </button>
+    </div>
+  )
+}
+
 function Counter(){
+  
   const [count, setCount] = useState(0);
+    /*useEffect(() => {
+      document.title = `Count: ${count}`;
+    console.log("Runs only once!");
+  },[count]);*/
+
+    useEffect(() => {
+      alert("Welcome to my React Page!");
+    },[]);
+
+    useEffect(() =>{
+      const id = setInterval(() => setCount(c => c + 1), 1000);
+      return () => clearInterval(id);
+    },[]);
+
   return(
     <div>
     
-     <h1>Count: {count}</h1>
+     <h1>Click Num: {count}</h1>
 
     <button onClick={() => setCount(count+1)}>
       +
@@ -32,9 +59,12 @@ function Counter(){
     </div>
   )
 }
+
+
+
 function Dumb(){
   return(
-    <p>I am a silly JSX component! I can be reused anywhere!</p>
+    <p>This is dumb!</p>
   )
 }
 function Hello(){
@@ -42,6 +72,7 @@ function Hello(){
 };
 
 function Greeting(){
+
   return(
     <div>
       <h1>Hello, React!</h1>
