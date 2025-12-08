@@ -10,6 +10,13 @@ function App() {
   )
 }
 
+function useCounter(initial = 0){
+  const[count, setCount] = useState(initial);
+  const increment = () => setCount(c => c + 1);
+  const reset = () => setCount(initial);
+  return { count, increment, reset};
+}
+
 
 function Form(){
   const inputRef = useRef();
@@ -24,7 +31,6 @@ function Form(){
 }
 
 function Counter(){
-  
   const [count, setCount] = useState(0);
     /*useEffect(() => {
       document.title = `Count: ${count}`;
@@ -63,6 +69,8 @@ function Counter(){
 
 
 function Dumb(){
+  const { count, increment, reset} = useCounter(10);
+
   return(
     <p>This is dumb!</p>
   )
